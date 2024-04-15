@@ -3,6 +3,7 @@ package com.example.userauthentication
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -20,16 +21,21 @@ class EmailPasswordActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_email_password)
         auth = Firebase.auth
+
         val btnLogin = findViewById<Button>(R.id.btnLogin)
         btnLogin.setOnClickListener ()
         {
-
+            val email:EditText = findViewById(R.id.userEmail)
+            val pass:EditText = findViewById(R.id.userpassword)
+            signIn(email.text.toString(), pass.text.toString())
         }
 
         val btnReg = findViewById<Button>(R.id.btnReg)
         btnReg.setOnClickListener ()
         {
-
+            val email:EditText = findViewById(R.id.userEmail)
+            val pass:EditText = findViewById(R.id.userpassword)
+            createAccount(email.text.toString(), pass.text.toString())
         }
 
 
@@ -94,16 +100,6 @@ class EmailPasswordActivity : AppCompatActivity() {
                 }
             }
         // [END sign_in_with_email]
-    }
-
-    private fun sendEmailVerification() {
-        // [START send_email_verification]
-        val user = auth.currentUser!!
-        user.sendEmailVerification()
-            .addOnCompleteListener(this) { task ->
-                // Email Verification sent
-            }
-        // [END send_email_verification]
     }
 
     private fun updateUI(user: FirebaseUser?) {

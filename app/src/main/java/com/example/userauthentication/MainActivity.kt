@@ -1,5 +1,6 @@
 package com.example.userauthentication
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -18,75 +19,15 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-    }
-    
-    private fun sendEmailVerification() {
-        // [START send_email_verification]
-        val user = Firebase.auth.currentUser
+        val intent = Intent(this, EmailPasswordActivity::class.java)
+        startActivity(intent)
 
-        user!!.sendEmailVerification()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d(TAG, "Email sent.")
-                }
-            }
-        // [END send_email_verification]
-    }
-    private fun updatePassword() {
-        // [START update_password]
-        val user = Firebase.auth.currentUser
-        val newPassword = "SOME-SECURE-PASSWORD"
-
-        user!!.updatePassword(newPassword)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d(TAG, "User password updated.")
-                }
-            }
-        // [END update_password]
-    }
-    private fun sendPasswordReset() {
-        // [START send_password_reset]
-        val emailAddress = "user@example.com"
-
-        Firebase.auth.sendPasswordResetEmail(emailAddress)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d(TAG, "Email sent.")
-                }
-            }
-        // [END send_password_reset]
-    }
-    private fun deleteUser() {
-        // [START delete_user]
-        val user = Firebase.auth.currentUser!!
-
-        user.delete()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d(TAG, "User account deleted.")
-                }
-            }
-        // [END delete_user]
-    }
-    private fun updateEmail() {
-        // [START update_email]
-        val user = Firebase.auth.currentUser
-
-        user!!.updateEmail("user@example.com")
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d(TAG, "User email address updated.")
-                }
-            }
-        // [END update_email]
     }
 
     private fun getUserProfile() {
@@ -127,23 +68,7 @@ class MainActivity : AppCompatActivity() {
         }
         // [END get_provider_data]
     }
-    private fun updateProfile() {
-        // [START update_profile]
-        val user = Firebase.auth.currentUser
 
-        val profileUpdates = userProfileChangeRequest {
-            displayName = "Jane Q. User"
-            photoUri = Uri.parse("https://example.com/jane-q-user/profile.jpg")
-        }
-
-        user!!.updateProfile(profileUpdates)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d(TAG, "User profile updated.")
-                }
-            }
-        // [END update_profile]
-    }
     private fun checkCurrentUser() {
         // [START check_current_user]
         val user = Firebase.auth.currentUser
